@@ -16,8 +16,10 @@ end
 gem 'active_model_serializers', '0.9.2'
 
 # Testing
-gem 'rspec-rails', '~>3.0'
-gem 'shoulda-matchers'
+group :development, :test do
+  gem 'rspec-rails', '~>3.0'
+  gem 'shoulda-matchers'
+end
 
 # Other gems
 gem 'sass-rails', '~> 5.0'
