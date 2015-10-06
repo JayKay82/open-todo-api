@@ -17,6 +17,16 @@ class Api::UsersController < ApiController
     end
   end
 
+  def destroy
+    begin
+      user = User.find(params[:id])
+      user.destroy
+      render json: {}, status: 204
+    rescue
+      render json: {}, status: 404
+    end
+  end
+
   private
 
   def user_params
