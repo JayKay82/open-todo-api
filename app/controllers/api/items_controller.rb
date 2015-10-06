@@ -5,7 +5,7 @@ class Api::ItemsController < ApiController
     item = list.items.build(item_params)
 
     if item.save
-      render json: item
+      render json: item, status: 201
     else
       render json: { errors: item.errors.full_messages }, status: 422
     end

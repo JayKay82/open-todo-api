@@ -5,7 +5,7 @@ class Api::ListsController < ApiController
     list = user.lists.build(list_params)
 
     if list.save
-      render json: list
+      render json: list, status: 201
     else
       render json: { errors: list.errors.full_messages }, status: 422
     end
