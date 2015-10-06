@@ -11,7 +11,7 @@ class Api::UsersController < ApiController
     user = User.new(user_params)
 
     if user.save
-      render json: user
+      render json: user, status: 201
     else
       render json: { errors: user.errors.full_messages }, status: 422
     end

@@ -12,14 +12,16 @@ group :production do
   gem 'rails_12factor'
 end
 
-# Serializer
-gem 'active_model_serializers', '0.9.2'
-
 # Testing
 group :development, :test do
-  gem 'rspec-rails', '~>3.0'
-  gem 'shoulda-matchers'
+  gem 'rspec-rails', '~> 3.0'
+  gem 'shoulda-matchers', '~> 3.0'
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'airborne'
 end
+
+# Serializer
+gem 'active_model_serializers', '0.9.2'
 
 # Other gems
 gem 'sass-rails', '~> 5.0'
