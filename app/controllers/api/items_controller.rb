@@ -11,9 +11,9 @@ class Api::ItemsController < ApiController
     end
   end
 
-  def complete
+  def completed
     item = list.items.where(name: params[:item][:name]).first
-    if item.mark_completed
+    if item.toggle_completed
       render json: item, status: 200
     else
       render json: item.errors.full_messages, status: 422

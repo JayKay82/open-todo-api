@@ -3,8 +3,8 @@ class Item < ActiveRecord::Base
 
   validates :name, presence: true
 
-  def mark_completed
-    self.name += ' (completed)'
+  def toggle_completed
+    self.completed = self.completed == true ? false : true
     self.save
   end
 end

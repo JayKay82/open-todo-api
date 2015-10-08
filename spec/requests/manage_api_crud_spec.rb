@@ -47,7 +47,7 @@ RSpec.describe "Manage API CRUD:", type: :request do
     it "successfully marks a list item as complete" do
       put "http://localhost:3000/api/lists/#{@list.id}/items", { item: { name: 'Rob a bank' } }, @env
       expect_status(200)
-      expect_json(name: 'Rob a bank (completed)')
+      expect_json(completed: true)
     end
   end
 

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :items, only: [:create]
     end
 
-    put 'lists/:list_id/items', to: 'items#complete'
+    put 'lists/:list_id/items', to: 'items#completed'
 
     resources :items, only: [:destroy]
   end
