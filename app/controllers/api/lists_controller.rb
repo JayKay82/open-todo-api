@@ -11,9 +11,16 @@ class Api::ListsController < ApiController
     end
   end
 
+  def update
+    if list.update(list_params)
+      render json: list, status: 200
+    else
+      render json: list.errors.full_messages, status: 422
+    end
+  end
+
   def destroy
     begin
-      list = List.find(params[:id])
       list.delete
       render json: {}, status: 204
     rescue
@@ -27,7 +34,11 @@ class Api::ListsController < ApiController
     params.require(:list).permit(:name, :permissions)
   end
 
+  def list
+    @list ||= List.find(params[:id])
+  end
+
   def user
-    User.find(params[:user_id])
+    @user ||= User.find(params[:user_id])
   end
 end

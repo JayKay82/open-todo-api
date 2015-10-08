@@ -1,12 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe "Manage API CRUD", type: :request do
+RSpec.describe "Manage API CRUD:", type: :request do
   include OpenToDoHelper
 
   before do
     @user = create(:user)
     @user2 = create(:user, username: 'Scarecrow')
-    @list = create(:list)
+    @list = create(:list, user: @user)
+    @item = create(:item, list: @list)
     http_login(@user.username, @user.password)
   end
 
@@ -18,7 +19,7 @@ RSpec.describe "Manage API CRUD", type: :request do
     end
 
     it "successfully creates a new list" do
-      post "http://localhost:3000/api/users/#{@user.id}/lists", {list: { name: 'Shopping List', permissions: 'Private' } }, @env
+      post "http://localhost:3000/api/users/#{@user.id}/lists", {list: { name: 'Shopping List', permissions: 'private' } }, @env
       expect_status(201)
       expect_json(name: 'Shopping List')
     end
@@ -33,6 +34,20 @@ RSpec.describe "Manage API CRUD", type: :request do
       post 'http://localhost:3000/api/users', {user: { username: nil, password: 'Alfred' } }, @env
       expect_status(422)
       expect(response.body).to include("Username can't be blank")
+    end
+  end
+
+  describe "PUT/PATCH" do
+    it "successfully updates a list's permissions" do
+      put "http://localhost:3000/api/users/#{@user.id}/lists/#{@list.id}", { list: { permissions: 'open' } }, @env
+      expect_status(200)
+      expect_json(permissions: 'open')
+    end
+
+    it "successfully marks a list item as complete" do
+      put "http://localhost:3000/api/lists/#{@list.id}/items", { item: { name: 'Rob a bank' } }, @env
+      expect_status(200)
+      expect_json(name: 'Rob a bank (completed)')
     end
   end
 

@@ -11,6 +11,15 @@ class Api::ItemsController < ApiController
     end
   end
 
+  def complete
+    item = list.items.where(name: params[:item][:name]).first
+    if item.mark_completed
+      render json: item, status: 200
+    else
+      render json: item.errors.full_messages, status: 422
+    end
+  end
+
   private
 
   def item_params
@@ -18,6 +27,6 @@ class Api::ItemsController < ApiController
   end
 
   def list
-    List.find(params[:list_id])
+    @list ||= List.find(params[:list_id])
   end
 end
