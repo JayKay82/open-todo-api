@@ -1,13 +1,18 @@
 class Api::ListsController < ApiController
   before_action :authenticated?
 
+  def index
+    lists = current_user.lists.all
+    render json: lists, each_serializer: ListSerializer, status: 200
+  end
+
   def create
-    list = user.lists.build(list_params)
+    list = current_user.lists.build(list_params)
 
     if list.save
       render json: list, status: 201
     else
-      render json: { errors: list.errors.full_messages }, status: 422
+      render json: list.errors.full_messages, status: 422
     end
   end
 
@@ -22,7 +27,7 @@ class Api::ListsController < ApiController
   def destroy
     begin
       list.delete
-      render json: {}, status: 204
+      head 204
     rescue
       render json: {}, status: 404
     end
@@ -35,10 +40,6 @@ class Api::ListsController < ApiController
   end
 
   def list
-    @list ||= List.find(params[:id])
-  end
-
-  def user
-    @user ||= User.find(params[:user_id])
+    @list ||= current_user.lists.find(params[:id])
   end
 end
